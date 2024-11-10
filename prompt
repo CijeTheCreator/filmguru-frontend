@@ -1,0 +1,70 @@
+  try {
+    await pool.query(
+      `
+      SELECT ai.create_vectorizer(
+      'public.imdb_numbered_votes'::regclass,
+      embedding=>ai.embedding_openai('text-embedding-3-small', 1536, api_key_name=>'OPENAI_API_KEY'),
+      chunking=>ai.chunking_recursive_character_text_splitter('description'),
+      formatting=>ai.formatting_python_template('title: $title description: $chunk, year: $year, duration: $duration, rating: $rating, stars: $stars')
+      );
+      `,
+    );
+    return { status: "success" };
+  } catch (error) {
+    console.log(error);
+    return { status: "failed" };
+  }
+
+error: column s.........pg.dropped.10........ does not exist
+    at /home/ubuntu/filmguru/testing/node_modules/pg-pool/index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:95:5) {
+  length: 1059,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: '289',
+  internalQuery: '\n' +
+    '    create view public.imdb_numbered_votes_embedding as\n' +
+    '    select\n' +
+    '      t.embedding_uuid\n' +
+    '    , t.chunk_seq\n' +
+    '    , t.chunk\n' +
+    '    , t.embedding\n' +
+    '    , s.title\n' +
+    '    , s.year\n' +
+    '    , s.certificate\n' +
+    '    , s.duration\n' +
+    '    , s.genre\n' +
+    '    , s.rating\n' +
+    '    , s.description\n' +
+    '    , s.stars\n' +
+    '    , s.votes\n' +
+    '    , s."........pg.dropped.10........"\n' +
+    '    , t.id\n' +
+    '    from public.imdb_numbered_votes_embedding_store t\n' +
+    '    left outer join public.imdb_numbered_votes s\n' +
+    '    on (t.id = s.id)\n' +
+    '    ',
+  where: 'PL/pgSQL function ai._vectorizer_create_view(name,name,name,name,jsonb,name,name,name[]) line 54 at EXECUTE\n' +
+    'SQL statement "SELECT ai._vectorizer_create_view\n' +
+    '    ( view_schema\n' +
+    '    , view_name\n' +
+    '    , _source_schema\n' +
+    '    , _source_table\n' +
+    '    , _source_pk\n' +
+    '    , target_schema\n' +
+    '    , target_table\n' +
+    '    , grant_to\n' +
+    '    )"\n' +
+    'PL/pgSQL function ai.create_vectorizer(regclass,name,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,name,name,name,name,name,name,name[],boolean) line 164 at PERFORM',
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}

@@ -1,0 +1,24 @@
+async function EmbedQuery(query: string) {
+  try {
+    const result = await pool.query(
+      `
+      SELECT chunk
+      FROM imdb_numbered_votes_embedding_store
+      ORDER BY embedding <=>  SELECT ai.openai_embed('text-embedding-3-small', $1)
+      LIMIT 3;
+      `,
+      [query]
+    )
+    const rows = result.rows
+    const context = rows
+      .map((value: any) => {
+        const chunk = `Chunk: ${value[1]}`
+        return chunk
+      })
+      .join('\n\n')
+    return { status: 'success', chunk: context }
+  } catch (error) {
+    console.log(error)
+    return { status: 'failed' }
+  }
+}

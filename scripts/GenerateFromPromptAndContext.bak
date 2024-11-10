@@ -1,0 +1,21 @@
+async function GenerateFromPromptAndContext(query: string, context: string) {
+  try {
+    const finalPrompt = `Query: ${query}\nContext: ${context}`
+    const result = await pool.query(
+      `
+      SELECT ai.openai_chat_complete(
+      'gpt-4o-mini', 
+      jsonb_build_array( 
+      jsonb_build_object('role', 'system', 'content', 'you are a helpful assistant that recommends movies, based on the query and context recommend a single movie'),
+      jsonb_build_object('role', 'user', 'content', $1)
+      )
+      )->'choices'->0->'message'->>'content';
+      `,
+      [finalPrompt]
+    )
+    return { status: 'success', result: result }
+  } catch (error) {
+    console.log(error)
+    return { status: 'failed' }
+  }
+}
