@@ -14,15 +14,13 @@ Here’s a sneak peek at a recommendation! With FilmGuru, finding your next favo
 
 
 ## Demo
-{% embed https://youtu.be/OuNdMy7xOA %}
+
 
 You can try the app out [here](https://filmguru-omega.vercel.app/)
+
 Thank you for exploring FilmGuru!
 
 ## Tools Used
-
-{% embed https://github.com/CijeTheCreator/filmguru-frontend %}
-{% embed https://github.com/CijeTheCreator/filmguru-backend %}
 
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ih0icp8ku0wyuo4uwy8o.jpeg)
